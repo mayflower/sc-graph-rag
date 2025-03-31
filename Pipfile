@@ -6,10 +6,17 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+faiss-cpu = "*"
+#faiss-gpu = "*" # Optional, if you want to use GPU
 langchain = "*"
+langchain-community = "*"
+langchain-openai = "*"
+matplotlib = "*"
 networkx = "*"
+openai = "*"
 pandas = "*"
 python-dotenv = "*"
+tiktoken = "*"
 
 [requires]
 python_version = "3.12"

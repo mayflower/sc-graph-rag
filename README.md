@@ -5,6 +5,7 @@ This repository showcases a GraphRAG implementation in a healthcare setting.
 ## Installation
 
 ```
+direnv allow
 pip install --upgrade pip && pip install pipenv
 pipenv install
 pipenv run python ./main.py
