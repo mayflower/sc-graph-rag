@@ -4,9 +4,11 @@ This repository showcases a GraphRAG implementation in a healthcare setting.
 
 ## Installation
 
+```
 pip install --upgrade pip && pip install pipenv
 pipenv install
 pipenv run python ./main.py
+````
 
 ## Synthetic data
 
