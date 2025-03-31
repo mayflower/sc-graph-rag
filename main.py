@@ -1,4 +1,3 @@
-import os
 import networkx as nx
 import pandas as pd
 from dotenv import load_dotenv
@@ -14,35 +13,51 @@ from langchain.graphs import NetworkxEntityGraph
 load_dotenv()
 
 # 1. Create a knowledge graph from structured data
-def create_knowledge_graph(csv_file):
-    """Create a knowledge graph from a structured CSV file."""
+def create_knowledge_graph(csv_file: str) -> nx.DiGraph:
+    """
+    Create a knowledge graph from a structured CSV file.
+
+    Args:
+        csv_file (str): Path to the CSV file containing product data.
+
+    Returns:
+        nx.DiGraph: A directed graph representing the knowledge graph.
+    """
     df = pd.read_csv(csv_file)
-    G = nx.DiGraph()
+    graph = nx.DiGraph()
 
     # Add nodes and edges based on your data structure
     # Example for a product catalog with categories and features
     for _, row in df.iterrows():
         # Add product nodes
-        G.add_node(row['product_id'], 
-                   type='product', 
+        graph.add_node(row['product_id'],
+                   type='product',
                    name=row['product_name'],
                    attributes={'price': row['price'], 'launch_date': row['launch_date']})
 
         # Add category nodes and connect products to categories
-        G.add_node(row['category'], type='category')
-        G.add_edge(row['product_id'], row['category'], relation='belongs_to')
+        graph.add_node(row['category'], type='category')
+        graph.add_edge(row['product_id'], row['category'], relation='belongs_to')
 
         # Connect related products
         if not pd.isna(row['related_products']):
             related = row['related_products'].split(',')
             for rel in related:
-                G.add_edge(row['product_id'], rel.strip(), relation='related_to')
+                graph.add_edge(row['product_id'], rel.strip(), relation='related_to')
 
-    return G
+    return graph
 
 # 2. Set up document retrieval with RAG
-def setup_rag(documents_dir):
-    """Set up a retrieval system using document embeddings."""
+def setup_vector_store(documents_dir: str) -> FAISS:
+    """
+    Set up a vector store for document retrieval.
+
+    Args:
+        documents_dir (str): Directory containing text documents.
+
+    Returns:
+        FAISS: A vector store for document retrieval.
+    """
     # Load documents
     loader = DirectoryLoader(documents_dir, glob="**/*.txt", loader_cls=TextLoader)
     documents = loader.load()
@@ -53,13 +68,15 @@ def setup_rag(documents_dir):
 
     # Create embeddings and vector store
     embeddings = OpenAIEmbeddings()
-    vectorstore = FAISS.from_documents(chunks, embeddings)
+    vector_store = FAISS.from_documents(chunks, embeddings)
 
-    return vectorstore
+    return vector_store
 
 # 3. Combine graph and retrieval for GraphRAG
-def setup_graphrag(knowledge_graph, vectorstore):
-    """Combine knowledge graph and retrieval components."""
+def setup_graph_rag(knowledge_graph, vector_store):
+    """
+    Combine knowledge graph and retrieval components.
+    """
     # Convert networkx graph to LangChain entity graph
     entity_graph = NetworkxEntityGraph(knowledge_graph)
 
@@ -78,17 +95,34 @@ def setup_graphrag(knowledge_graph, vectorstore):
     # Here's a conceptual approach:
 
     class GraphRAG:
-        def __init__(self, graph_qa, vectorstore):
+        """
+        A class that combines knowledge graph querying with document retrieval.
+        """
+        def __init__(self, graph_qa, vector_store):
+            """
+            Initialize the GraphRAG system.
+
+            Args:
+                graph_qa (GraphQAChain): The GraphQA chain for querying the knowledge graph.
+                vector_store (FAISS): The vector store for document retrieval.
+            """
             self.graph_qa = graph_qa
-            self.vectorstore = vectorstore
+            self.vector_store = vector_store
             self.llm = llm
 
-        def query(self, question):
+        def query(self, question: str) -> str:
+            """
+            Query the system with a question.
+            Args:
+                question (str): The question to ask.
+            Returns:
+                str: The answer to the question.
+            """
             # First, try to answer from the knowledge graph
             graph_result = self.graph_qa.run(question)
 
             # Retrieve relevant documents
-            docs = self.vectorstore.similarity_search(question, k=3)
+            docs = self.vector_store.similarity_search(question, k=3)
             doc_content = "\n".join([doc.page_content for doc in docs])
 
             # Combine graph knowledge with retrieved documents
@@ -105,18 +139,23 @@ def setup_graphrag(knowledge_graph, vectorstore):
             final_answer = self.llm(combined_prompt)
             return final_answer
 
-    return GraphRAG(graph_qa, vectorstore)
+    return GraphRAG(graph_qa, vector_store)
 
 # Example usage
 if __name__ == "__main__":
     # Create components
-    graph = create_knowledge_graph("product_catalog.csv")
-    vectorstore = setup_rag("./company_documents/")
+    print("Creating knowledge graph...")
+    product_graph = create_knowledge_graph("./product_catalog.csv")
+    print("Setting up vector store...")
+    company_vector_store = setup_vector_store("./company_documents/")
 
     # Setup GraphRAG
-    graphrag = setup_graphrag(graph, vectorstore)
+    print("Setting up GraphRAG...")
+    graph_rag = setup_graph_rag(product_graph, company_vector_store)
 
     # Query the system
-    question = "What are the key features of our premium products in the healthcare category?"
-    answer = graphrag.query(question)
+    query = "What are the key features of our premium products in the healthcare category?"
+    print("Querying the system...")
+    answer = graph_rag.query(query)
+    print("Answer:")
     print(answer)
