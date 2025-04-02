@@ -31,20 +31,21 @@ def create_knowledge_graph(csv_file: str) -> nx.DiGraph:
     # Example for a product catalog with categories and features
     for _, row in df.iterrows():
         # Add product nodes
-        graph.add_node(row['product_id'],
-                   type='product',
-                   name=row['product_name'],
-                   attributes={'price': row['price'], 'launch_date': row['launch_date']})
+        graph.add_node(row['product_name'],
+                       label='product',
+                       attributes={'price': row['price'], 'launch_date': row['launch_date']})
 
         # Add category nodes and connect products to categories
-        graph.add_node(row['category'], type='category')
-        graph.add_edge(row['product_id'], row['category'], relation='belongs_to')
+        graph.add_node(row['category'], label='category')
+        graph.add_edge(row['product_name'], row['category'], relation='belongs_to')
 
         # Connect related products
         if not pd.isna(row['related_products']):
             related = row['related_products'].split(',')
             for rel in related:
-                graph.add_edge(row['product_id'], rel.strip(), relation='related_to')
+                related_product_name = \
+                    df.loc[df['product_id']==rel.strip()]['product_name'].values[0]
+                graph.add_edge(row['product_name'], related_product_name, relation='related_to')
 
     return graph
 
@@ -182,7 +183,7 @@ if __name__ == "__main__":
     # Plot the graph if needed
     #print("Plotting the knowledge graph...")
     #plot_graph(product_graph)
-    
+
     print("Setting up vector store...")
     company_vector_store = setup_vector_store("./company_documents/")
 
@@ -191,7 +192,7 @@ if __name__ == "__main__":
     graph_rag = setup_graph_rag(product_graph, company_vector_store)
 
     # Query the system
-    query = "What are the key features of our premium products in the healthcare category?"
+    query = "Which are the key features of the Premium Health Monitor related products?"
     print("Querying the system...")
     answer = graph_rag.query(query)
     print("Answer:")
