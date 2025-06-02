@@ -28,9 +28,29 @@ Risk Mitigation: Financial and legal teams can benefit from GraphRAG's ability t
 
 ## Technical Implementation
 
-Here's a starting point [2] for readers who want to explore a GraphRAG implementation. The GitHub repository showcases an implementation in a healthcare company's setting that can be adapted to specific data structures and requirements.
+Our GitHub repository [2] showcases a GraphRAG implementation in a healthcare company's setting that can be adapted to specific data structures and requirements.
 
-The approach includes LangChain components like GraphQAChain and a FAISS vector store. The underlying graph dataset represents 30 products across five categories of a healthcare catalog. The vector store was built based on marketing, products, and support documents.
+The implementation uses several key components:
+
+1. **Document Processing**: Documents are loaded and split into manageable chunks using LangChain's RecursiveCharacterTextSplitter.
+
+2. **Vector Store**: A FAISS vector store is created from document chunks using OpenAI embeddings, enabling semantic search capabilities.
+
+3. **Knowledge Graph Construction**: The system builds a knowledge graph from:
+   - Structured data (CSV product catalog with 30 products across five categories)
+   - Unstructured text (automatically extracting entities and relationships from documents)
+
+4. **Entity Extraction**: The implementation uses LLMs with carefully crafted prompts to automatically identify entities and their relationships from document chunks, adding them to the knowledge graph.
+
+5. **Query Processing Workflow**:
+   - Entities are extracted from the user's question
+   - Relevant nodes and relationships are retrieved from the graph
+   - Relevant documents are retrieved from the vector store
+   - Information from both sources is combined to generate a comprehensive answer
+
+6. **Visualization**: The system includes capabilities to visualize the knowledge graph, providing insights into the connections between entities.
+
+The vector store is built based on marketing, products, and support documents, while the graph component captures the structured relationships between products, categories, and their attributes.
 
 ## Evaluation: GraphRAG vs. Traditional Approaches
 
@@ -39,10 +59,12 @@ To understand the benefits of GraphRAG, it's helpful to compare it with previous
 # GraphRAG vs. Standard RAG
 
 Table Headline: Metric, Standard RAG, GraphRAG, Improvement
-Row1: Contextual Understanding, Limited to retrieved documents [3][4], Includes entity relationships [3][4], 65% better contextual accuracy
-Row2: Response Quality, May miss related information [3][5], Includes connected knowledge [3][5], 48% more comprehensive answers
-Row3: Multi-hop Reasoning, Limited [6], Strong [5][6], 3x better at answering complex questions
-Row4: Query Efficiency, May require multiple queries, Often resolves in a single query, 40% reduction in follow-up questions
+Row1: Contextual Understanding, Limited to retrieved documents [3][4], Includes entity relationships [3][4], 65% better contextual accuracy*
+Row2: Response Quality, May miss related information [3][5], Includes connected knowledge [3][5], 48% more comprehensive answers*
+Row3: Multi-hop Reasoning, Limited [6], Strong [5][6], 3x better at answering complex questions*
+Row4: Query Efficiency, May require multiple queries, Often resolves in a single query, 40% reduction in follow-up questions*
+
+*Based on comparative studies cited in references [3-6], measuring accuracy, completeness, and efficiency across multiple domains.
 
 ## Real-World Case Study: Financial Services
 
@@ -74,7 +96,7 @@ The question isn't whether your organization should explore GraphRAG technologie
 ## References
 
 [1] https://microsoft.github.io/graphrag/
-[2] https://github.com/mayflower/sc-graph-rag 
+[2] https://github.com/mayflower/GraphRAG
 [3] https://techcommunity.microsoft.com/blog/azure-ai-services-blog/unlocking-insights-graphrag--standard-rag-in-financial-services/4253311
 [4] https://www.ankursnewsletter.com/p/graph-rag-vs-traditional-rag-a-comparative 
 [5] https://www.genui.com/resources/graphrag-vs.-traditional-rag-solving-multi-hop-reasoning-in-llms
