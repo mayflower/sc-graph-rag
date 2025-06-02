@@ -70,15 +70,6 @@ answer = graph_rag.query(query)
    pipenv run python graphrag_implementation.py
    ```
 
-## Benefits of This Approach
-
-1. **Automatic Knowledge Graph Construction**: No need to manually define entities and relationships.
-2. **Richer Context**: The system can leverage both structured knowledge (graph) and unstructured text (documents).
-3. **Better Question Answering**: By understanding the entities in a question and their relationships, the system can provide more accurate and comprehensive answers.
-4. **Visualization**: The knowledge graph can be visualized to provide insights into the data structure.
-5. **Extensibility**: The system can be easily extended with new documents and data sources.
-
-
 ## References
 
 [Blog Post](https://blog.mayflower.de/)
