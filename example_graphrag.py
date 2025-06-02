@@ -1,11 +1,8 @@
 """
 Example script demonstrating the GraphRAG implementation.
 """
-
-import os
 from dotenv import load_dotenv
 from graphrag_implementation import GraphRAGSystem
-import matplotlib.pyplot as plt
 
 # Load environment variables
 load_dotenv()
