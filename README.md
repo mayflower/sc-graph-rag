@@ -7,11 +7,8 @@ This repository contains a GraphRAG (Graph-enhanced Retrieval-Augmented Generati
 GraphRAG is an approach that combines the strengths of knowledge graphs with retrieval-augmented generation. It addresses limitations of traditional RAG systems by:
 
 1. Automatically extracting entities and relationships from documents
-
 2. Building a knowledge graph to represent structured information
-
 3. Using the graph structure to enhance retrieval beyond simple vector similarity
-
 4. Integrating graph-based and vector-based retrieval for more comprehensive answers
 
 ## How It Works
@@ -23,7 +20,6 @@ The GraphRAG system works in the following steps:
 3. **Initial Graph Creation from Structured Data**: A base knowledge graph is created from the structured CSV data.
 4. **Entity and Relationship Extraction**: LLMs are used to extract entities and relationships from document chunks.
 5. **Graph Enhancement**: The knowledge graph is enhanced with the extracted entities and relationships.
-
 6. **Query Processing**:
    - Entities are extracted from the query
    - Relevant nodes and relationships are retrieved from the graph
