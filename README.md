@@ -82,5 +82,4 @@ answer = graph_rag.query(query)
 
 ## References
 
-[GraphRAG] (https://microsoft.github.io/graphrag/)
 [Blog Post](https://blog.mayflower.de/)
