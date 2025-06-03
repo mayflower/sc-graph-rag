@@ -1,6 +1,6 @@
 # GraphRAG Implementation for Healthcare Product Catalog
 
-This repository contains a GraphRAG (Graph-enhanced Retrieval-Augmented Generation) implementation for a healthcare company's product catalog. The implementation automatically extracts entities and relationships from both structured data (CSV) and unstructured text documents to build a knowledge graph, which is then used to enhance retrieval and answer questions.
+This repository contains a GraphRAG (Graph-enhanced Retrieval-Augmented Generation) implementation for a healthcare company's product catalog using the official Microsoft GraphRAG package. The implementation automatically extracts entities and relationships from unstructured text documents to build a knowledge graph, which is then used to enhance retrieval and answer questions.
 
 ## What is GraphRAG?
 
@@ -13,63 +13,69 @@ GraphRAG is an approach that combines the strengths of knowledge graphs with ret
 
 ## How It Works
 
-The GraphRAG system works in the following steps:
+This implementation uses the official Microsoft GraphRAG CLI to:
 
-1. **Document Loading and Chunking**: Documents are loaded and split into manageable chunks.
-2. **Vector Store Creation**: Document chunks are embedded and stored in a vector store (FAISS).
-3. **Initial Graph Creation from Structured Data**: A base knowledge graph is created from the structured CSV data.
-4. **Entity and Relationship Extraction**: LLMs are used to extract entities and relationships from document chunks.
-5. **Graph Enhancement**: The knowledge graph is enhanced with the extracted entities and relationships.
-6. **Query Processing**:
-   - Entities are extracted from the query
-   - Relevant nodes and relationships are retrieved from the graph
-   - Relevant documents are retrieved from the vector store
-   - Information from both sources is combined to generate a comprehensive answer
+1. **Index documents**: The system processes text files in the `input` directory, extracting entities and relationships to build a knowledge graph.
+2. **Query the graph**: The system supports both global and local search methods to answer questions about the healthcare products.
+3. **Visualize the knowledge graph**: The system generates a visual representation of the entities and relationships in the knowledge graph.
 
-## Usage
+## Project Structure
 
-```python
-# Initialize the GraphRAG system
-graph_rag = GraphRAGSystem()
-
-# Load documents and structured data
-graph_rag.load_documents("./company_documents/")
-graph_rag.load_structured_data("./product_catalog.csv")
-
-# Extract entities and relationships from documents
-graph_rag.extract_entities_from_documents()
-
-# Visualize the graph
-graph_rag.visualize_graph(save_path="knowledge_graph.png")
-
-# Query the system
-query = "What are the key features of the Premium Health Monitor and its related products?"
-answer = graph_rag.query(query)
-```
+- `graphrag_pipeline.py`: The main implementation file that contains the GraphRAGPipeline class
+- `graphrag_example.py`: Example script demonstrating the GraphRAG functionality
+- `input/`: Directory containing the input text files
+- `output/`: Directory where GraphRAG stores its output files (entities, relationships, etc., will be created by GraphRAG)
+- `logs/`: Directory for log files (will be created by GraphRAG)
+- `cache/`: Directory for cached data (will be created by GraphRAG)
 
 ## Requirements
 
-- Python 3.10+
-- OpenAI API key (set in .env file)
-- Dependencies: langchain, langchain-openai, networkx, faiss-cpu, matplotlib, pandas
+- Python 3.10 or higher
+- GraphRAG CLI installed and configured
+- Dependencies listed in the Pipfile
 
 ## Installation
 
-1. Ensure you have Python 3.10+ installed
-2. Install dependencies:
-   ```
-   pip install --upgrade pip && pip install pipenv
-   pipenv install
-   ```
-3. Create a `.env` file with your OpenAI API key:
-   ```
-   OPENAI_API_KEY=your_api_key_here
-   ```
-4. Run the example:
-   ```
-   pipenv run python graphrag_implementation.py
-   ```
+1. Install pipenv if you don't have it
+```bash
+pip install pipenv
+```
+
+2. Install dependencies from Pipfile
+```bash
+pipenv install
+```
+
+## Project Setup
+
+1. Initialize GraphRAG Project
+```bash
+pipenv run graphrag init --root ./
+```
+2. Add API key (OpenAI)
+```bash
+GRAPHRAG_API_KEY=your_api_key_here
+```
+
+## Usage
+
+Run the example script:
+```bash
+pipenv run python graphrag_example.py
+```
+
+The script will:
+- Run the indexing process
+- Execute example global and local search queries
+- Generate a visualization of the knowledge graph
+
+## Features
+
+- **CLI-based interaction**: Uses the GraphRAG CLI for indexing and querying
+- **Knowledge graph visualization**: Creates visual representations of entities and relationships
 
 ## References
 
-[Blog Post](https://blog.mayflower.de/)
+- [Microsoft GraphRAG GitHub Repository](https://github.com/microsoft/graphrag)
+- [Microsoft Research Blog Post](https://microsoft.github.io/graphrag/)
+- [Blog Post](https://blog.mayflower.de/)

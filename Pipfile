@@ -8,12 +8,8 @@ python-dotenv = "*"
 pandas = "*"
 networkx = "*"
 matplotlib = "*"
-langchain = "*"
-langchain-openai = "*"
-langchain-community = "*"
-langchain-core = "*"
-faiss-cpu = "*"
-openai = "*"
+numpy = "*"
+graphrag = "*"
 
 [dev-packages]
 
