@@ -21,8 +21,9 @@ This implementation uses the official Microsoft GraphRAG CLI to:
 
 ## Project Structure
 
-- `graphrag_pipeline.py`: The main implementation file that contains the GraphRAGPipeline class
-- `graphrag_example.py`: Example script demonstrating the GraphRAG functionality
+- `pipeline.py`: The main implementation file that contains the GraphRAGPipeline class for indexing and querying
+- `analyzer.py`: Contains the GraphRAGAnalyzer class for analyzing and visualizing the knowledge graph
+- `main.py`: Example script demonstrating the GraphRAG functionality
 - `input/`: Directory containing the input text files
 - `output/`: Directory where GraphRAG stores its output files (entities, relationships, etc., will be created by GraphRAG)
 - `logs/`: Directory for log files (will be created by GraphRAG)
@@ -52,16 +53,22 @@ pipenv install
 ```bash
 pipenv run graphrag init --root ./
 ```
-2. Add API key (OpenAI)
+
+2. Add API key (here OpenAI key)
 ```bash
-GRAPHRAG_API_KEY=your_api_key_here
+GRAPHRAG_API_KEY=<API_KEY>
+```
+
+3. Approve environment settings
+```bash
+direnv allow
 ```
 
 ## Usage
 
 Run the example script:
 ```bash
-pipenv run python graphrag_example.py
+pipenv run python main.py
 ```
 
 The script will:
@@ -72,6 +79,7 @@ The script will:
 ## Features
 
 - **CLI-based interaction**: Uses the GraphRAG CLI for indexing and querying
+- **Graph analysis**: Provides statistics and insights about the knowledge graph
 - **Knowledge graph visualization**: Creates visual representations of entities and relationships
 
 ## References

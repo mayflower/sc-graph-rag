@@ -56,23 +56,22 @@ class GraphRAGPipeline:
             print(f"Indexing failed: {e}")
             return False
 
-    def global_search(self, query: str, community_level: int = 2) -> str:
+    def search(self, query: str) -> str:
         """
-        Perform global search query.
+        Perform search query.
 
         Args:
             query: The query string to search for
-            community_level: The community level to use for the search (default: 2)
 
         Returns:
             str: The search results
         """
-        print(f"Running global search for: {query}")
+        print(f"Running search for: {query}")
 
         try:
             cmd = (
                 f"graphrag query --root {str(self.project_root)} "
-                f"--method global --community_level {community_level} \"{query}\""
+                f"--method local --query \"{query}\""
             )
 
             result = subprocess.run(
@@ -84,51 +83,14 @@ class GraphRAGPipeline:
             )
 
             if result.returncode != 0:
-                print(f"Global search failed with exit code {result.returncode}")
+                print(f"Search failed with exit code {result.returncode}")
                 print(f"Error output: {result.stderr}")
                 return f"Search failed. Error: {result.stderr}"
 
             return result.stdout
 
         except Exception as e:
-            print(f"Global search failed: {e}")
-            return f"Search failed due to an error: {str(e)}"
-
-    def local_search(self, query: str) -> str:
-        """
-        Perform local search query.
-
-        Args:
-            query: The query string to search for
-
-        Returns:
-            str: The search results
-        """
-        print(f"Running local search for: {query}")
-
-        try:
-            cmd = (
-                f"graphrag query --root {str(self.project_root)} "
-                f"--method local \"{query}\""
-            )
-
-            result = subprocess.run(
-                cmd,
-                shell=True,
-                capture_output=True,
-                text=True,
-                check=False
-            )
-
-            if result.returncode != 0:
-                print(f"Local search failed with exit code {result.returncode}")
-                print(f"Error output: {result.stderr}")
-                return f"Search failed. Error: {result.stderr}"
-
-            return result.stdout
-
-        except Exception as e:
-            print(f"Local search failed: {e}")
+            print(f"Search failed: {e}")
             return f"Search failed due to an error: {str(e)}"
 
 
