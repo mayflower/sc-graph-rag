@@ -17,7 +17,8 @@ This implementation uses the official Microsoft GraphRAG CLI to:
 
 1. **Index documents**: The system processes text files in the `input` directory, extracting entities and relationships to build a knowledge graph.
 2. **Query the graph**: The system supports both global and local search methods to answer questions about the healthcare products.
-3. **Visualize the knowledge graph**: The system generates a visual representation of the entities and relationships in the knowledge graph.
+3. **Create statistics**: The system generates statistics about the knowledge graph, such as the number of entities and relationships.
+4. **Visualize the knowledge graph**: The system generates a visual representation of the entities and relationships in the knowledge graph.
 
 ## Project Structure
 
@@ -49,7 +50,7 @@ pipenv install
 
 ## Project Setup
 
-1. Initialize GraphRAG Project
+1. Initialize GraphRAG project
 ```bash
 pipenv run graphrag init --root ./
 ```
@@ -73,8 +74,8 @@ pipenv run python main.py
 
 The script will:
 - Run the indexing process
-- Execute example global and local search queries
-- Generate a visualization of the knowledge graph
+- Execute example search queries
+- Generate statistics and visualization of the knowledge graph
 
 ## Features
 
