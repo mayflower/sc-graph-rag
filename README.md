@@ -32,35 +32,28 @@ This implementation uses the official Microsoft GraphRAG CLI to:
 
 ## Requirements
 
-- Python 3.10 or higher
-- GraphRAG CLI installed and configured
-- Dependencies listed in the Pipfile
+- Python 3.12 (managed by [uv](https://docs.astral.sh/uv/))
+- An OpenAI API key
 
 ## Installation
 
-1. Install pipenv if you don't have it
-```bash
-pip install pipenv
-```
+1. Install uv if you don't have it ([install guide](https://docs.astral.sh/uv/getting-started/installation/))
 
-2. Install dependencies from Pipfile
+2. Install dependencies — uv reads `pyproject.toml` and `uv.lock` and provisions Python 3.12 if needed
 ```bash
-pipenv install
+uv sync
 ```
 
 ## Project Setup
 
-1. Initialize GraphRAG project
+`settings.yaml` and `prompts/` are tracked in the repo, so a fresh checkout is ready to run. Do **not** run `graphrag init` — it will overwrite both (and your `.env`).
+
+1. Create `.env` with your OpenAI key
 ```bash
-pipenv run graphrag init --root ./
+echo 'GRAPHRAG_API_KEY=<API_KEY>' > .env
 ```
 
-2. Add API key (here OpenAI key)
-```bash
-GRAPHRAG_API_KEY=<API_KEY>
-```
-
-3. Approve environment settings
+2. Approve environment settings
 ```bash
 direnv allow
 ```
@@ -69,7 +62,7 @@ direnv allow
 
 Run the example script:
 ```bash
-pipenv run python main.py
+uv run python main.py
 ```
 
 The script will:

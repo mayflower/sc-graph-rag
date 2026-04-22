@@ -1,8 +1,8 @@
 .env
 .DS_Store
+.venv/
+__pycache__/
 cache/
 logs/
 output/
-prompts/
-settings.yaml
 knowledge_graph.png
