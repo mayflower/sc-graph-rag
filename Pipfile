@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-python-dotenv = "*"
+python-dotenv = ">=1.2.2"
 pandas = "*"
 networkx = "*"
 matplotlib = "*"
