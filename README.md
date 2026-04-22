@@ -46,14 +46,19 @@ uv sync
 
 ## Project Setup
 
-`settings.yaml` and `prompts/` are tracked in the repo, so a fresh checkout is ready to run. Do **not** run `graphrag init` — it will overwrite both (and your `.env`).
+1. Scaffold the graphrag config (creates `settings.yaml` and `prompts/`). Accept the defaults — the 3.x templates use `gpt-4.1` and `text-embedding-3-large`.
+```bash
+uv run graphrag init --root ./
+```
 
-1. Create `.env` with your OpenAI key
+> **Warning:** `graphrag init` will overwrite an existing `.env` in the project root with a placeholder. If you already have one, back it up first (`cp .env .env.bak`).
+
+2. Create `.env` with your OpenAI key
 ```bash
 echo 'GRAPHRAG_API_KEY=<API_KEY>' > .env
 ```
 
-2. Approve environment settings
+3. Approve environment settings
 ```bash
 direnv allow
 ```
