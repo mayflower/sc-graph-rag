@@ -10,6 +10,7 @@ networkx = "*"
 matplotlib = "*"
 numpy = "*"
 graphrag = "*"
+numba = "<0.63"
 
 [dev-packages]
 
