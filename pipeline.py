@@ -69,14 +69,15 @@ class GraphRAGPipeline:
         print(f"Running search for: {query}")
 
         try:
-            cmd = (
-                f"graphrag query --root {str(self.project_root)} "
-                f"--method local --query \"{query}\""
-            )
+            cmd = [
+                "graphrag", "query",
+                "--root", str(self.project_root),
+                "--method", "local",
+                query,
+            ]
 
             result = subprocess.run(
                 cmd,
-                shell=True,
                 capture_output=True,
                 text=True,
                 check=False

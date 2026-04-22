@@ -1,0 +1,14 @@
+[project]
+name = "graphrag-example"
+version = "0.1.0"
+description = "GraphRAG implementation example for a healthcare product catalog"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "python-dotenv>=1.2.2",
+    "pandas",
+    "networkx",
+    "matplotlib",
+    "numpy",
+    "graphrag>=3.0,<4",
+]
