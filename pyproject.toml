@@ -12,3 +12,8 @@ dependencies = [
     "numpy",
     "graphrag>=3.0,<4",
 ]
+
+[tool.uv]
+# graphrag pins pyarrow~=22.0, but pyarrow <23.0.1 has a high-severity
+# use-after-free (GHSA-rgxp-2hwp-jwgg). Override the pin to the patched release.
+override-dependencies = ["pyarrow>=23.0.1,<24"]
