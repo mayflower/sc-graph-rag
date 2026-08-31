@@ -10,10 +10,13 @@ dependencies = [
     "networkx",
     "matplotlib",
     "numpy",
-    "graphrag>=3.0,<4",
+    "graphrag>=3.1.2,<4",
 ]
 
 [tool.uv]
-# graphrag pins pyarrow~=22.0, but pyarrow <23.0.1 has a high-severity
-# use-after-free (GHSA-rgxp-2hwp-jwgg). Override the pin to the patched release.
-override-dependencies = ["pyarrow>=23.0.1,<24"]
+# graphrag pins nltk~=3.9.0, but nltk <3.10.0 has several high-severity
+# advisories (GHSA-m42h-3232-vpv3, GHSA-qvv7-cg9c-w4x3, GHSA-xh95-f55m-82fw,
+# GHSA-fg7f-2386-8897, GHSA-6hm5-jgcp-p838). Override the pin to a patched release.
+# The previous pyarrow override is no longer needed: graphrag >=3.1.2 requires
+# pyarrow~=25.0, which is already past the GHSA-rgxp-2hwp-jwgg fix.
+override-dependencies = ["nltk>=3.10.3,<4"]
